@@ -1,0 +1,53 @@
+{
+  "name": "resilient-notification-gateway",
+  "version": "1.0.0",
+  "description": "The Resilient Notification Gateway",
+  "keywords": [
+    "resilience",
+    "notification",
+    "gateway",
+    "microservice",
+    "nodejs",
+    "idempotency",
+    "rate-limiting",
+    "queue",
+    "worker"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "resilient-notification-gateway"
+  },
+  "license": "ISC",
+  "author": "Salahuddin Ahmed",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev src/server.ts",
+    "worker": "ts-node-dev src/workers/notification.worker.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "start:all": "concurrently \"npm run dev\" \"npm run worker\"",
+    "test": "jest"
+  },
+  "dependencies": {
+    "bullmq": "^5.71.0",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "redis": "^5.11.0",
+    "winston": "^3.19.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.5.0",
+    "concurrently": "^9.2.1",
+    "eslint": "^10.0.3",
+    "jest": "^30.3.0",
+    "prettier": "^3.8.1",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.6",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
