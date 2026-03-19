@@ -17,6 +17,10 @@ This project is a Node.js microservice designed to send notifications reliably u
 - BullMQ
 - TypeScript
 
+## Architecture (High-Level)
+
+Client → API → Middleware → Queue (Redis) → Worker → Provider A → Provider B (fallback)
+
 ## Setup
 
 ### 1. Install dependencies
@@ -45,6 +49,9 @@ npm run start:all
 }
 ```
 
+### Response
+- `202 Accepted` – Notification queued successfully
+
 ### Using cURL
 ```bash
 curl -X POST http://localhost:3000/notifications \
@@ -68,14 +75,7 @@ Content-Type: application/json
 }
 ```
 
-### Response
-- `202 Accepted` – Notification queued successfully
-
 ### Using Jest Test
 ```bash
 npm test
 ```
-
-## Architecture (High-Level)
-
-Client → API → Middleware → Queue (Redis) → Worker → Provider A → Provider B (fallback)
