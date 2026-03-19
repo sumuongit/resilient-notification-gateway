@@ -6,5 +6,5 @@ export const sendNotification = async (req: Request, res: Response) => {
 
   const job = await enqueueNotification({ userId, message, type });
 
-  res.status(202).json({ message: "Notification queued" });
+  res.status(202).json({ message: "Notification queued successfully" });
 };
