@@ -1,13 +1,16 @@
 import { Request, Response, NextFunction } from "express";
+import { logger } from "../utils/logger";
 
-export const logger = (
+export const requestLogger = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log(
-    `${req.method} ${req.url} - ${new Date().toISOString()}`
-  );
+  logger.info("incoming request", {
+    method: req.method,
+    url: req.url,
+    body: req.body?.userId,
+  });
 
   next();
 };

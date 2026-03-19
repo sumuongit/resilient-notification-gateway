@@ -1,4 +1,4 @@
-# Resilient Notification Gateway
+# The Resilient Notification Gateway
 
 ## Overview
 This project is a Node.js microservice designed to send notifications reliably using multiple providers with failover support.
@@ -31,15 +31,7 @@ npm install
 ### 2. Run Redis
 docker run -d -p 6379:6379 redis
 
-### 3. Run API
-npm run dev
-
-### 4. Run Worker
-npm run worker
-
-### OR
-
-### 4. Run API and Worker Concurrently
+### 3. Run API and Worker Concurrently
 npm run start:all
 
 ---
@@ -49,7 +41,7 @@ npm run start:all
 ### POST /notifications
 ```json
 {
-  "userId": "123",
+  "userId": "123",  
+  "message": "Hello",
   "type": "email",
-  "message": "Hello"
 }

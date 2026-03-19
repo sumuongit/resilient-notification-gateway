@@ -1,23 +1,22 @@
 import express from "express";
 import notificationRoutes from "./routes/notification.routes";
-import { logger } from "./middlewares/logger.middleware";
+import { requestLogger } from "./middlewares/logger.middleware";
+import { healthController } from "./controllers/health.controller";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
 
 const app = express();
 
 app.use(express.json());
 // Logger middleware
-app.use(logger)
+app.use(requestLogger)
 
-// Middleware
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
-});
-
-//Route definations
+// Route definations
 app.use("/notifications", notificationRoutes);
 
-//Error handler middleware
+// Health-check endpoint
+app.get("/health", healthController);
+
+// Error handler middleware
 app.use(errorHandler);
 
 export default app;
