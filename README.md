@@ -51,7 +51,7 @@ npm run start:all
 ### Response
 - `202 Accepted` – Notification queued successfully
 
-### RExample Logs (Observability)
+### Example Logs (Observability)
 - Provider Handling
 ```json
 {"jobId":"1","level":"info","message":"Sent via secondary provider","service":"notification-service"}
