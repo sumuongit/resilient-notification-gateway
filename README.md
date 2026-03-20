@@ -5,9 +5,10 @@ This project is a Node.js microservice designed to send notifications reliably u
 
 ## Features
 - Provider failover (Primary → Secondary)
-- Idempotency using Redis
+- Idempotency using Redis (Duplicate requests are blocked)
 - Rate limiting using Redis (10 requests/minute per user)
-- Structured logging using Winston and a health-check endpoint
+- Structured logging using Winston
+- Health-check endpoint for service and Redis monitoring
 
 ## Tech Stack
 - Node.js + Express
@@ -18,7 +19,7 @@ This project is a Node.js microservice designed to send notifications reliably u
 
 ## Architecture (High-Level)
 
-Client → API → Middleware → Controller → Service (enqueue jobs) → Queue (Redis/BullMQ) → Worker (process jobs) → Primary Provider → Secondary Provider (failover)
+Client → API → Middleware → Controller → Service (enqueue jobs) → Queue (BullMQ backed by Redis) → Worker (process jobs) → Primary Provider → Secondary Provider (failover)
 
 ## Setup
 
@@ -32,7 +33,7 @@ npm install
 docker run -d -p 6379:6379 redis
 ```
 
-### 3. Run API and Worker Concurrently
+### 3. Run API and Worker concurrently
 ```bash
 npm run start:all
 ```
@@ -47,8 +48,10 @@ npm run start:all
   "type": "email"
 }
 ```
+### Response
+- `202 Accepted` – Notification queued successfully
 
-### Response: Structured Logging
+### RExample Logs (Observability)
 - Provider Handling
 ```json
 {"jobId":"1","level":"info","message":"Sent via secondary provider","service":"notification-service"}
