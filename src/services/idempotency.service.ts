@@ -2,7 +2,7 @@ import { redisClient } from "../config/redis.config";
 import { logger } from "../utils/logger";
 
 export const isDuplicateRequest = async (data: any): Promise<boolean> => {
-  const key = `notification:${data.userId}:${data.message}`;
+  const key = `notification:${data.userId}:${data.type}:${data.message}`;
 
   const exists = await redisClient.get(key);
 

@@ -6,8 +6,8 @@ This project is a Node.js microservice designed to send notifications reliably u
 ## Features
 - Provider failover (Primary → Secondary)
 - Idempotency using Redis
-- Rate limiting using Redis (10 requests/min per user)
-- Structured logging using Winston and a Health-check endpoint
+- Rate limiting using Redis (10 requests/minute per user)
+- Structured logging using Winston and a health-check endpoint
 
 ## Tech Stack
 - Node.js + Express
@@ -48,8 +48,24 @@ npm run start:all
 }
 ```
 
-### Response
-- `202 Accepted` – Notification queued successfully
+### Response: Structured Logging
+- Provider Handling
+```json
+{"jobId":"1","level":"info","message":"Sent via secondary provider","service":"notification-service"}
+```
+- Idempotency
+```json
+
+{"key":"notification:2:Hello","level":"warn","message":"Duplicate request blocked","service":"notification-service","userId":"2"}
+```
+- Rate Limiting
+```json
+{"level":"warn","message":"Rate limit exceeded","service":"notification-service","userId":"2"}
+```
+- Health Check
+```json
+{"level":"info","message":"Health check called","service":"notification-service","uptime":24.1770609}
+```
 
 ### Using cURL
 ```bash
@@ -65,7 +81,7 @@ POST http://localhost:3000/notifications
 **Headers:** 
 Content-Type: application/json
 
-**Body (JSON):**
+**Body (JSON): To check Idempotency**
 ```json
 {
   "userId": "1",
@@ -73,8 +89,30 @@ Content-Type: application/json
   "type": "email"
 }
 ```
+**Body (JSON): To check Rate Limiting**
+```json
+{
+  "userId": "1",
+  "message": "msg{{$randomInt}}",
+  "type": "email"
+}
+```
+**Health-check Endpoint:**
+GET http://localhost:3000/health
 
+- This endpoint verifies that the service is running and that the Redis connection is healthy
+
+**Response:**
+```json
+{
+  "status": "ok",
+  "uptime": 123.45,
+  "timestamp": "2026-03-20T10:00:00.000Z"
+}
+```
 ### Using Jest Test
+- To check Provider Failover
+
 ```bash
 npm test
 ```
