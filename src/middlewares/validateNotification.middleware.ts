@@ -3,8 +3,8 @@ import { z } from "zod";
 import { logger } from "../utils/logger";
 
 const notificationSchema = z.object({
-    userId: z.string(),
-    message: z.string(),
+    userId: z.string().min(1),
+    message: z.string().min(1),
     type: z.enum(["email", "sms", "push"]),
 });
 
@@ -20,7 +20,7 @@ export const validateNotification = (
             path: req.originalUrl,
             method: req.method,
             errors: result.error.issues,
-            //body: req.body, 
+            body: req.body,
         });
 
         return res.status(400).json({

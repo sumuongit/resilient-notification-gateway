@@ -16,11 +16,15 @@ new Worker(
 
             logger.info("Sent via primary provider", { jobId: job.id });
         } catch (err) {
-            logger.error("Primary provider failed", { jobId: job.id, err });
+            logger.error("Primary provider failed", { jobId: job.id });
 
-            await sendWithSecondaryProvider(data);
+            try {
+                await sendWithSecondaryProvider(data);
 
-            logger.info("Sent via secondary provider", { jobId: job.id });
+                logger.info("Sent via secondary provider", { jobId: job.id });
+            } catch (err2) {
+                logger.error("Both providers failed", { jobId: job.id });
+            }
         }
     },
     { connection: redisConnection }

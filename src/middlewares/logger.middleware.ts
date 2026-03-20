@@ -9,7 +9,7 @@ export const requestLogger = (
   logger.info("incoming request", {
     method: req.method,
     url: req.url,
-    body: req.body?.userId,
+    body: req.body,
   });
 
   next();

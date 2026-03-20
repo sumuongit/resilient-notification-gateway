@@ -4,22 +4,21 @@
 This project is a Node.js microservice designed to send notifications reliably using multiple providers with failover support.
 
 ## Features
-- Provider failover (A → B)
+- Provider failover (Primary → Secondary)
 - Idempotency using Redis
-- Rate limiting (10 requests/min per user)
-- Background job processing using BullMQ
-- Structured logging
-- Health check endpoint
+- Rate limiting using Redis (10 requests/min per user)
+- Structured logging using Winston and a Health-check endpoint
 
 ## Tech Stack
 - Node.js + Express
 - Redis
 - BullMQ
+- Winston
 - TypeScript
 
 ## Architecture (High-Level)
 
-Client → API → Middleware → Queue (Redis) → Worker → Provider A → Provider B (fallback)
+Client → API → Middleware → Controller → Service (enqueue jobs) → Queue (Redis/BullMQ) → Worker (process jobs) → Primary Provider → Secondary Provider (failover)
 
 ## Setup
 

@@ -1,3 +1,5 @@
+import { logger } from "../utils/logger";
+
 export const sendWithSecondaryProvider = async (data: any) => {
-  return "sent"
-};
+  logger.info("Secondary provider success", { userId: data.userId });
+}
